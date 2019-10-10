@@ -2,7 +2,7 @@
   <div id="app">
 
     <div id= "app" > <google-map /> </div>
-      
+        <router-view/>
 
   </div>
 </template>

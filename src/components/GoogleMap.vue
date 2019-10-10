@@ -1,8 +1,7 @@
 <template>
   <div>
     <div>
-      <h2>地域を検索</h2>
-      <label>
+      <label　id="search">
         <gmap-autocomplete
           @place_changed="setPlace">
         </gmap-autocomplete>
@@ -15,7 +14,7 @@
     <gmap-map
       :center="center"
       :zoom="15"
-      style="width:100%;  height: 400px;"
+      style="width:100%;  height: 500px;"
     >
       <gmap-marker
         :key="index"
@@ -71,3 +70,11 @@ export default {
   }
 };
 </script>
+<style scoped>
+h1, h2 {
+  font-weight: normal;
+  font-size: 48px;
+}
+#search {
+  width: 100px;
+}

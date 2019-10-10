@@ -1,11 +1,10 @@
 <template>
   <div class="page1">
-   　<input class="input" v-model="nickname" placeholder="施設を入力してください。">
+  <!-- 　<input class="input" v-model="nickname" placeholder="施設を入力してください。">
     <router-view/>
     <botton><router-link to="/page2">検索</router-link></botton><!-- Page2画面へ -->
     <botton id="page6"><router-link to="/page6">インフォメーション</router-link></botton><!-- Page6画面へ -->
-    <botton id="page6"><router-link to="/test">test</router-link></botton><!-- Page6画面へ -->
-
+    
   </div>
 </template>
 
@@ -26,7 +25,7 @@ h1, h2 {
 }
 #page6{
 position: relative;
- top: 600px;
+ top: 0;
  left: 0;
 
 }
