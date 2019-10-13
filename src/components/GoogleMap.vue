@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <label　id="search">
+     <label　id="search">
         <gmap-autocomplete
           @place_changed="setPlace">
         </gmap-autocomplete>
@@ -27,6 +27,9 @@
 </template>
 
 <script>
+var setlat;
+var setlng;
+
 export default {
   name: "GoogleMap",
   data() {
@@ -53,6 +56,10 @@ export default {
           lat: this.currentPlace.geometry.location.lat(),
           lng: this.currentPlace.geometry.location.lng()
         };
+        setlat = marker['lat']
+        setlng = marker['lng']
+      　console.log(setlat);
+        console.log(setlng);
         this.markers.push({ position: marker });
         this.places.push(this.currentPlace);
         this.center = marker;
@@ -76,5 +83,8 @@ h1, h2 {
   font-size: 48px;
 }
 #search {
-  width: 100px;
+position: relative;
+ top: 0;
+ left: 0;
+  width: 500px;
 }

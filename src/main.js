@@ -9,7 +9,7 @@ import * as VueGoogleMaps from "vue2-google-maps";
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: "apiキー",
+    key: "AIzaSyDoX0k_TXCtdymsTdksBg-HY_CRrUIqLNk",
     libraries: "places" // necessary for places input
   }
 });
