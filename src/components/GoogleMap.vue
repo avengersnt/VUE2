@@ -78,7 +78,7 @@ export default {
     getDriveplanToDestination(){
        var result = new Promise(function(resolve) {
          var req = new XMLHttpRequest();
-         req.open("GET", "http://10.0.0.247:8989/route?point=26.21360535,127.68046814&point=26.24261661,127.75863647&points_encoded=false&instructions=false&debug=true", false); // HTTPメソッドとアクセスするサーバーの　URL　を指定
+         req.open("GET", "http://10.0.0.247:8989/route?point=26.21360535,127.68046814&point=26.24261661,127.75863647&points_encoded=false&instructions=false&debug=true&ch.disable=true&edge_traversal=true", false); // HTTPメソッドとアクセスするサーバーの　URL　を指定
          req.send();
          var rst = JSON.parse(req.responseText).paths[0].points.coordinates;
          console.log(rst);
