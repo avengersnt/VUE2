@@ -1,18 +1,18 @@
 <template>
   <div>
     <div>
-     <label　id="search">
-        <gmap-autocomplete
-          @place_changed="setPlace">
-        </gmap-autocomplete>
-        <button @click="addMarker">検索</button>
-      </label>
-        <button @click="post">周辺の駐車場を検索</button>
+    <label　id="search">
+       <gmap-autocomplete
+         @place_changed="setPlace">
+       </gmap-autocomplete>
+       <button @click="addMarker">検索</button>
+     </label>
+       <button @click="post">周辺の駐車場を検索</button>
 
 
-        <button @click="getDriveplanToDestination">ルート表示</button>
-
-    </div>
+       <button @click="getDriveplanToDestination">ルート表示</button>
+       <botton id="page6"><router-link to="/page6">インフォメーション</router-link></botton><!-- Page6画面へ -->
+   </div>
     <br>
     <gmap-map
       :center="center"

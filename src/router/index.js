@@ -7,6 +7,8 @@ import Page4 from '@/components/Page4'
 import Page5 from '@/components/Page5'
 import Page6 from '@/components/Page6'
 import test from '@/components/test'
+import GoogleMap from '@/components/GoogleMap'
+
 
 Vue.use(Router)
 
@@ -14,8 +16,8 @@ export default new Router({
   routes: [
     {
       path: '/', // Page1画面のパス（URL）を設定
-      name: 'Page1', // Page1コンポーネントの名前を設定
-      component: Page1 // Page1コンポーネントを設定
+      name: 'GoogleMap', // Page1コンポーネントの名前を設定
+      component: GoogleMap // Page1コンポーネントを設定
     },
     {
       path: '/page2', // Page2画面のパス（URL）を設定

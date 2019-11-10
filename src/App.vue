@@ -1,7 +1,7 @@
 <template>
   <div id="app">
 
-    <div id= "app" > <google-map /> </div>
+    <div id= "app" > <gmap-map /> </div>
         <router-view/>
 
   </div>
@@ -9,9 +9,10 @@
 
 <script>
 import GoogleMap from "./components/GoogleMap";
+import Page6 from "./components/Page6";
+
 export default {
   name: 'App' , components: {
-    GoogleMap
   }
 }
 </script>
