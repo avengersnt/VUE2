@@ -55,5 +55,34 @@ app.post('/test', function(req, res) {
 
 
 
-})
+});
+var mysql      = require('mysql');
+var connection = mysql.createConnection({
+  host     : '10.0.0.247',
+  user     : 'root',
+  password : 'pTgL6%ec',
+  database : 'locate'
+});
+
+app.get('/test', function (req, res) {
+  connection.query('select * from locate', function (error, results, fields) {
+    if (error) throw error;
+    res.send(results[0]);
+  });
+});
+
+app.push('/test', function (req, res) {
+  var lat2 =  req.body.lat
+  var lng2 =  req.body.lng
+  connection.query('insert into locate value('+lat2+','+lng2+')', function (error, results, fields) {
+    if (error) throw error;
+    res.send(results[0]);
+  });
+});
+
+//app.listen(3000, function () {
+//  console.log('Example app listening on port 3000!');
+//});
+
+
 app.listen(process.env.PORT || 3000)

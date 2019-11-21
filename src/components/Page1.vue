@@ -2,9 +2,8 @@
   <div class="page1">
   <!-- 　<input class="input" v-model="nickname" placeholder="施設を入力してください。">
     <router-view/>
-    <botton><router-link to="/page2">検索</router-link></botton><!-- Page2画面へ -->
     <botton id="page6"><router-link to="/page6">インフォメーション</router-link></botton><!-- Page6画面へ -->
-    
+
   </div>
 </template>
 
