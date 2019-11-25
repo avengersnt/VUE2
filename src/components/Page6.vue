@@ -4,12 +4,12 @@
 
 
     <ul>
-      <li><router-link to="/">戻る</router-link></li><!-- Page1画面へ -->
+      <botton id="page6"><router-link to="/">戻る</router-link></botton><!-- Page6画面へ -->
     </ul>
     <button @click="fun">現在地を送信</button>
     <button @click="fun2">選択した場所を送信</button>
     <br>
-    <gmap-map 
+    <gmap-map @click="place"
       :center="center"
       :zoom="15"
       style="width:100%;  height: 500px;"
@@ -69,12 +69,12 @@ export default {
   },
   methods: {
 
-  place(event){
+  place(){
          if (event) {
              var lat = event.latLng.lat()
              var lng = event.latLng.lng()
-             ar
-             console.log(lat + ", " + lng)
+
+             console.log("rst")
          }
      },
     // receives a place object via the autocomplete component
@@ -161,11 +161,20 @@ export default {
       });
     },
     fun(){
-    console.log("rst");
-    }
-  }
+      navigator.geolocation.getCurrentPosition(position => {
+      var lat = position.coords.latitude;
+      var lon = position.coords.lonitude;
+      console.log(lat);
+      });
+      console.log("lat");
 
-};
+},
+
+
+    fun2(){
+    console.log("rst2");
+    }}}
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

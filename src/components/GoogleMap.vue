@@ -1,5 +1,9 @@
 <template>
   <div>
+  <div>
+    <button @click="getMysql">DB</button>
+    {{ message }}
+    </div>
     <div>
     <label　id="search">
        <gmap-autocomplete
@@ -48,6 +52,7 @@ var path2 = [
      {lat: 55.9361256, lng: -4.7767353 },
      {lat: 55.9366784, lng: -4.7739458 }
 ]
+var msg = "test";
 export default {
   name: "GoogleMap",
   data() {
@@ -93,6 +98,24 @@ export default {
 }
 
     },
+
+    async getMysql() {
+          console.log("11")
+          let response = await Methods.testGet();
+          console.log(response);
+          var data = response.data;
+          msg = String(data);
+          console.log(data.lat);
+          console.log(data.lenth);
+          for ( var i=0;  i<1;   i++)  {
+             var marker2 = {
+             lat: Number(data.lat),
+             lng: Number(data.lng)
+             };
+           this.markers.push({ position: marker2 });
+           //this.places.push(this.currentPlace);
+          }
+        },
 
     remove(){
   　　path.splice(this.paths.length - 1, 1);
