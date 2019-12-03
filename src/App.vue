@@ -1,7 +1,7 @@
 <template>
   <div id="app">
 
-    <div id= "app" > <gmap-map /> </div>
+    <div id= "app" > <GmapMap  /> </div>
         <router-view/>
 
   </div>

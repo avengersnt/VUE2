@@ -9,10 +9,12 @@
     <button @click="fun">現在地を送信</button>
     <button @click="fun2">選択した場所を送信</button>
     <br>
-    <gmap-map @click="place"
-      :center="center"
+    <Gmap-map @click="place($event)"　:center="center"
       :zoom="15"
       style="width:100%;  height: 500px;"
+
+
+
       >
 
 
@@ -38,6 +40,8 @@
 import Methods from '@/api/methods'
 import axios from "axios";
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+var select_lat;
+var select_lng;
 var relaylat = [];
 var relaylng = [];
 var relay;
@@ -69,13 +73,26 @@ export default {
   },
   methods: {
 
-  place(){
-         if (event) {
-             var lat = event.latLng.lat()
+　place(event){
+    if (event) {
+            var lat = event.latLng.lat()
              var lng = event.latLng.lng()
 
-             console.log("rst")
-         }
+             console.log(lat);
+             console.log(lng);
+             var marker2 = {
+               lat: Number(lat),
+               lng: Number(lng)
+             };
+             this.markers =  [
+             {position: {lat: Number(lat), lng: Number(lng)}}
+           ]
+            select_lat = Number(lat);
+            select_lng = Number(lng);
+      //    this.markers.push({ position: marker2 });
+          this.places.push(this.currentPlace);
+           console.log(this.markers)
+}
      },
     // receives a place object via the autocomplete component
     setPlace(place) {
@@ -99,8 +116,11 @@ export default {
         lat: Number(lng[i]),
         lng: Number(lat[i])
       };
-      this.markers.push({ position: marker2 });
-      this.places.push(this.currentPlace);
+      markers: [
+        {position: {lat: lng, lng: lat}}
+      ]
+      //this.markers.push({ position: marker2 });
+    //  this.places.push(this.currentPlace);
 }
 
     },
