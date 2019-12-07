@@ -221,7 +221,7 @@ ul {
  position: fixed;
  bottom: 10px;
  right: 10px;
- font-size: 30px;
+ font-size: 20px;
 
 }
 </style>
