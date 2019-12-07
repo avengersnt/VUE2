@@ -2,9 +2,8 @@
   <div class="page6">
 
 
-
     <ul>
-      <botton id="page6"><router-link to="/">戻る</router-link></botton><!-- Page6画面へ -->
+      <botton id="page6"><router-link to="/">戻る</router-link></botton><!-- Page1画面へ -->
     </ul>
     <button @click="fun">現在地を送信</button>
     <button @click="fun2">選択した場所を送信</button>
@@ -202,5 +201,27 @@ export default {
 h1, h2 {
   font-weight: normal;
   font-size: 30px;
+}
+button {
+  height: 38px;
+  background-color: white;
+  color: blue;
+  border: solid 1px blue;
+  border-radius: 2px;
+  padding: 0 24px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: blue;
+    color: white;
+  }
+}
+ul {
+/* 左下位置固定 */
+ position: fixed;
+ bottom: 10px;
+ right: 10px;
+ font-size: 30px;
+
 }
 </style>
