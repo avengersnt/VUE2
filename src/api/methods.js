@@ -7,7 +7,13 @@ export default {
     return Api().post('/test', item)
   },
   // 他の処理も追加可能
-  testGet(){
-    return Api().get('/test')
-  }
+ 　testGet(){
+ 　　　return Api().get('/test')
+　},
+
+  testPush (lat, lng) {
+    const item = { lat:  lat,
+                   lng:  lng}
+    return Api().post('/', item)
+  },
 }

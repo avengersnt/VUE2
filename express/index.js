@@ -56,33 +56,186 @@ app.post('/test', function(req, res) {
 
 
 });
+
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
   host     : '10.0.0.247',
   user     : 'root',
   password : 'pTgL6%ec',
-  database : 'locate'
+  database : 'avengers'
 });
 
-app.get('/test', function (req, res) {
+/*
+function getMysql(){
   connection.query('select * from locate', function (error, results, fields) {
     if (error) throw error;
-    res.send(results[0]);
+    res.send(results);
+  });
+  };
+  */
+
+app.get('/test', function (req, res) {
+  connection.query('select * from coordinate_report', function (error, results, fields) {
+    if (error) throw error;
+    res.send(results);
   });
 });
 
-app.push('/test', function (req, res) {
-  var lat2 =  req.body.lat
-  var lng2 =  req.body.lng
-  connection.query('insert into locate value('+lat2+','+lng2+')', function (error, results, fields) {
+
+
+app.post('/', function (req, res) {
+  var lat2 =  req.body.lat;
+  var lng2 =  req.body.lng;
+  var value = [lat2,lng2];
+  //var lat2 = 26.231408
+  //var lng2 = 127.685525
+  var states;
+
+  var result1 = new Promise(function(resolve) {
+  connection.query('insert into coordinate_report value(?,?)',value, function (error, results, fields) {
     if (error) throw error;
-    res.send(results[0]);
+    //res.send(results[0]);
+    console.log(1);
+    resolve()
   });
 });
+  result1.then(function(response){
+    console.log(2);
+    var result2 = new Promise(function(resolve) {
+   //process.on('unhandledRejection', console.dir);
+  connection.query('select * from coordinate_report', function (error, results, fields) {
+    if (error) throw error;
+      //sres.send(results);
+      console.log(3);
+      states = results;
+      resolve(states);
+    });
+  });
+  result2.then(function(states){
+    //onsole.log(4);
+    //console.log(states.length);
+    //console.log(states);
+    //console.log(states[0].lat);
+
+    for(var i=0;i<states.length;i++){
+      var result3 = new Promise(function(resolve) {
+      var closePosition = [];
+      closePosition.push(states[i]);
+      //console.log("rrr");
+      for(var j=0;j<states.length;j++){
+        if(states[i] != states[j]){
+        //console.log(5);
+        var x, y, dist;
+        if(states[i].lat < states[j].lat){
+          x = states[j].lat - states[i].lat
+        }else{
+          x = states[i].lat - states[j].lat
+        }
+
+        if(states[i].lng < states[j].lng){
+          y = states[j].lng - states[i].lng
+        }else{
+          y = states[i].lng - states[j].lng
+        }
+       dist = Math.sqrt(Math.pow(x,2) + Math.pow(y,2));
+       //console.log(6);
+       //console.log(dist);
+       if(dist<0.0001){//約10m以下
+         closePosition.push(states[j]);
+       }
+      }
+    }
+      console.log(closePosition+"aa");
+      console.log(closePosition.length);
+      resolve(closePosition);
+    });
+    result3.then(function(closePosition){
+      console.log(closePosition.length);
+     var result4 = new Promise(function(resolve) {
+       var value2 = [0,0];
+     if(closePosition.length > 5){
+      var setX, setY;
+      var tempX = 0;
+      var tempY = 0;
+      for(i=0;i<closePosition.length;i++){
+        tempX = tempX + closePosition[i].lat;
+        tempY = tempY + closePosition[i].lng;
+      }
+      setX = tempX/closePosition.length;
+      setY = tempY/closePosition.length;
+      value2[0] = setX;
+      value2[1] = setY;
+      console.log(value2+"gg");
+    }
+    resolve(value2);
+  });
+  result4.then(function(value2){
+    console.log(value2[0] != 0);
+    if(value2[0] != 0){
+      console.log(value2+"gg");
+      connection.query('insert into coordinate_addition value(?,?)',value2, function (error, results, fields) {
+        if (error) throw error;
+        //res.send(results[0]);
+      });
+    }
+    });
+  });
+   };
+ });
+  });
+});
+/*
+  result2.then(function(states){
+    console.log(2);
+    for(var i=0;i<states.length;i++){
+      console.log()
+      var closePosition = [];
+      for(var j=i+1;i<states.lenth;j++){
+        var x, y, dist;
+
+        if(states[i].lat < states[j].lat){
+          x = states[j].lat - states[i].lat
+        }else{
+          x = states[i].lat - states[j].lat
+        }
+
+        if(states[i].lng < states[j].lng){
+          y = states[j].lng - states[i].lng
+        }else{
+          y = states[i].lng - states[j].lng
+        }
+       dist = Math.sqrt(Math.pow(x,2) + Math.pow(y,2));
+       if(dist<0.0001){//約10m以下
+         closePosition.push(dist);
+       }
+      }
+     if(closePosition.length > 5){
+      var setX, setY;
+      var tempX = 0;
+      var tempY = 0;
+      for(i=0;i<closePosition.length;i++){
+        tempX = tempX + closePosition[i].lat;
+        tempY = tempY + closePosition[i].lng;
+      }
+      setX = tempX/closePosition.length;
+      setY = tempY/closePosition.length;
+
+      connection.query('insert into coordinate_report value('+setX+','+setY+')', function (error, results, fields) {
+        if (error) throw error;
+        res.send(results[0]);
+      });
+     }
+    }
+  });
+  */
+  //});
+
+
 
 //app.listen(3000, function () {
 //  console.log('Example app listening on port 3000!');
 //});
+
 
 
 app.listen(process.env.PORT || 3000)

@@ -9,10 +9,15 @@ import axios from 'axios'
 // Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 Vue.use(VueGoogleMaps, {
+  installComponents: true,
+
   load: {
     key: "AIzaSyDoX0k_TXCtdymsTdksBg-HY_CRrUIqLNk",
-    libraries: "places" // necessary for places input
-  }
+    libraries: "places", // necessary for places input
+  },
+  autobindAllEvents: false,
+
+
 });
 
 /* eslint-disable no-new */

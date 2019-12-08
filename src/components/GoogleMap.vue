@@ -1,23 +1,19 @@
 <template>
   <div>
-     <div>
-     <button @click="getMysql">DB</button>
-     {{ message }}
-     </div>
-    <div>
-     <label　id="search">
-        <gmap-autocomplete
-          @place_changed="setPlace">
-        </gmap-autocomplete>
-        <button @click="addMarker">検索</button>
-      </label>
-        <button @click="post">周辺の駐車場を検索</button>
-
-
-        <button @click="getDriveplanToDestination">ルート表示</button>
-
+  <div>
+    <button @click="getMysql">DB</button>
+    {{ message }}
+    <button @click="postMysql">post</button>
     </div>
-
+    <div>
+       <gmap-autocomplete
+         @place_changed="setPlace">
+       </gmap-autocomplete>
+       <button @click="addMarker">検索</button>
+       <button @click="post">周辺の駐車場を検索</button>
+       <button @click="getDriveplanToDestination">ルート表示</button>
+       <botton id="page6"><router-link to="/page6">インフォメーション</router-link></botton><!-- Page6画面へ -->
+   </div>
     <gmap-map
       :center="center"
       :zoom="15"
@@ -66,7 +62,6 @@ export default {
       paths: path,
       places: [],
       message: msg,
-
       currentPlace: null
     };
   },
@@ -78,6 +73,7 @@ export default {
     setPlace(place) {
       this.currentPlace = place;
     },
+
     async post() {
       let response = await Methods.testPosting(setlat, setlng)
       var data = response.data;
@@ -102,24 +98,32 @@ export default {
 
     },
 
-    async getMysql() {
-      console.log("11")
-      let response = await Methods.testGet();
-      console.log(response);
+    async postMysql() {
+      let response = await Methods.testPush(setlat, setlng)
+      console.log(setlat);
       var data = response.data;
-      msg = String(data);
-      console.log(data.lat);
-      console.log(data.lenth);
-      for ( var i=0;  i<1;   i++)  {
-         var marker2 = {
-         lat: Number(data.lat),
-         lng: Number(data.lng)
-         };
-       this.markers.push({ position: marker2 });
-       //this.places.push(this.currentPlace);
-      }
-    },
+      console.log(data);
+},
 
+
+
+    async getMysql() {
+          console.log("11")
+          let response = await Methods.testGet();
+          console.log(response);
+          var data = response.data;
+          msg = String(data);
+          console.log(data.lat);
+          console.log(data.lenth);
+          for ( var i=0;  i<1;   i++)  {
+             var marker2 = {
+             lat: Number(data.lat),
+             lng: Number(data.lng)
+             };
+           this.markers.push({ position: marker2 });
+           //this.places.push(this.currentPlace);
+          }
+        },
 
     remove(){
   　　path.splice(this.paths.length - 1, 1);
@@ -147,17 +151,12 @@ export default {
 
 
   //       req.open("GET", "http://10.0.0.247:8989/route?point=26.21360535,127.68046814&point="+relaylng[0]+","+relaylat[0]+"&point="+relaylng[1]+","+relaylat[1]+"&point="+setlat+","+setlng+"&points_encoded=false&instructions=false&debug=true", false); // HTTPメソッドとアクセスするサーバーの　URL　を指定
-         req.open("GET", "http://10.0.0.247:8989/route?point=26.2516868,127.76840779999998&point="+relaylng[4]+","+relaylat[4]+"&point="+relaylng[1]+","+relaylat[1]+"&point="+relaylng[2]+","+relaylat[2]+"&point="+relaylng[3]+","+relaylat[3]+"&point="+relaylng[0]+","+relaylat[0]+"&point="+setlat+","+setlng+"&points_encoded=false&instructions=false&debug=true&ch.disable=true&pass_through=true", false); // HTTPメソッドとアクセスするサーバーの　URL　を指定
+         req.open("GET", "http://10.0.0.247:8989/route?point=26.2516868,127.76840779999998&point="+relaylng[4]+","+relaylat[4]+"&point="+relaylng[1]+","+relaylat[1]+"&point="+relaylng[2]+","+relaylat[2]+"&point="+relaylng[3]+","+relaylat[3]+"&point="+relaylng[0]+","+relaylat[0]+"&point="+setlat+","+setlng+"&points_encoded=false&instructions=false&debug=true&ch.disable=true&pass_through=true&weighting=", false); // HTTPメソッドとアクセスするサーバーの　URL　を指定
          req.send();
-        // console.log();
-        console.log(req.responseText);
-        // console.log(req.readyState);
-        // console.log(req.status);
          var rst = JSON.parse(req.responseText).paths[0].points.coordinates;
       //   console.log(rst);
         resolve(rst);
        });
-
 
        result.then(function(road2){
         for(var i=0; i<road2.length; i++){ //ここで入れる
@@ -175,9 +174,8 @@ export default {
           lng: position.coords.longitude
         };
       });
-    }
-
-  }
+    },
+},
 };
 </script>
 
