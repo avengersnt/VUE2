@@ -1,6 +1,7 @@
 <template>
   <div>
     <div>
+    <a href="#" class="btn-square">BUTTON</a>
      <label　id="search">
         <gmap-autocomplete
           @place_changed="setPlace">
@@ -11,10 +12,12 @@
 
 
         <button @click="getDriveplanToDestination">ルート表示</button>
-        <botton id="page6"><router-link to="/page6">インフォメーション</router-link></botton><!-- Page6画面へ -->
+        <ul>
+        <button class="page6"><router-link to="/page6">インフォメーション</router-link></button><!-- Page6画面へ -->
+        </ul>
     </div>
     <br>
-  
+
   </div>
 </template>
 
@@ -150,4 +153,13 @@ position: relative;
  top: 0;
  left: 0;
   width: 500px;
+   background: #668ad8;/*ボタン色*/
+}
+label {
+/* 左下位置固定 */
+ position: fixed;
+ bottom: 10px;
+ right: 10px;
+ font-size: 80px;
+
 }

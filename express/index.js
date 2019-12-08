@@ -8,6 +8,8 @@ app.use(bodyParser.json())
 app.use(cors())
 var request = require('request');
 
+var domain = require('express-domain-middleware');
+app.use(domain);
 
 
 app.post('/test', function(req, res) {
@@ -82,34 +84,41 @@ app.get('/test', function (req, res) {
 });
 
 
-
-app.post('/', function (req, res) {
+app.post('/', async function (req, res) {
+  //var result0 = new Promise(function(resolve) {
   var lat2 =  req.body.lat;
   var lng2 =  req.body.lng;
   var value = [lat2,lng2];
   //var lat2 = 26.231408
   //var lng2 = 127.685525
-  var states;
-
+//});
+//result0.then(function(response){
   var result1 = new Promise(function(resolve) {
   connection.query('insert into coordinate_report value(?,?)',value, function (error, results, fields) {
     if (error) throw error;
-    //res.send(results[0]);
-    console.log(1);
-    resolve()
+    res.send(results[0]); //ないと勝手にリクエスト飛ばす・・・
+    console.log("1/98");
+    resolve();
   });
 });
+result1.catch(function(err){
+  console.log("1");
+});
   result1.then(function(response){
-    console.log(2);
+    var states;
+    //console.log(2);
     var result2 = new Promise(function(resolve) {
    //process.on('unhandledRejection', console.dir);
   connection.query('select * from coordinate_report', function (error, results, fields) {
     if (error) throw error;
       //sres.send(results);
-      console.log(3);
+      //console.log(3);
       states = results;
       resolve(states);
     });
+  });
+  result2.catch(function(err){
+    console.log("2");
   });
   result2.then(function(states){
     //onsole.log(4);
@@ -145,12 +154,15 @@ app.post('/', function (req, res) {
        }
       }
     }
-      console.log(closePosition+"aa");
-      console.log(closePosition.length);
+      //console.log(closePosition+"aa");
+      //console.log(closePosition.length);
       resolve(closePosition);
     });
+    result3.catch(function(err){
+      console.log("3");
+    });
     result3.then(function(closePosition){
-      console.log(closePosition.length);
+      //console.log(closePosition.length);
      var result4 = new Promise(function(resolve) {
        var value2 = [0,0];
      if(closePosition.length > 5){
@@ -165,77 +177,38 @@ app.post('/', function (req, res) {
       setY = tempY/closePosition.length;
       value2[0] = setX;
       value2[1] = setY;
-      console.log(value2+"gg");
+      //console.log(value2+"gg");
     }
     resolve(value2);
   });
+  result4.catch(function(err){
+    console.log("4");
+  });
   result4.then(function(value2){
-    console.log(value2[0] != 0);
+    //console.log(value2[0] != 0);
     if(value2[0] != 0){
-      console.log(value2+"gg");
-      connection.query('insert into coordinate_addition value(?,?)',value2, function (error, results, fields) {
+      //console.log(value2+"gg");
+      connection.query('insert ignore into coordinate_addition value(?,?)', value2, function (error, results, fields) {
         if (error) throw error;
         //res.send(results[0]);
+        console.log(212121);
       });
+      for(var i = 0;i<closePosition.length;i++){
+        connection.query('DELETE FROM coordinate_report WHERE lat=?',closePosition[i].lat , function (error, results, fields) {
+          if (error) throw error;
+          //res.send(results);
+        });
+      }
+    //break;
     }
+    //resolve();
     });
-  });
-   };
- });
+
+});
+ };
   });
 });
-/*
-  result2.then(function(states){
-    console.log(2);
-    for(var i=0;i<states.length;i++){
-      console.log()
-      var closePosition = [];
-      for(var j=i+1;i<states.lenth;j++){
-        var x, y, dist;
-
-        if(states[i].lat < states[j].lat){
-          x = states[j].lat - states[i].lat
-        }else{
-          x = states[i].lat - states[j].lat
-        }
-
-        if(states[i].lng < states[j].lng){
-          y = states[j].lng - states[i].lng
-        }else{
-          y = states[i].lng - states[j].lng
-        }
-       dist = Math.sqrt(Math.pow(x,2) + Math.pow(y,2));
-       if(dist<0.0001){//約10m以下
-         closePosition.push(dist);
-       }
-      }
-     if(closePosition.length > 5){
-      var setX, setY;
-      var tempX = 0;
-      var tempY = 0;
-      for(i=0;i<closePosition.length;i++){
-        tempX = tempX + closePosition[i].lat;
-        tempY = tempY + closePosition[i].lng;
-      }
-      setX = tempX/closePosition.length;
-      setY = tempY/closePosition.length;
-
-      connection.query('insert into coordinate_report value('+setX+','+setY+')', function (error, results, fields) {
-        if (error) throw error;
-        res.send(results[0]);
-      });
-     }
-    }
-  });
-  */
-  //});
-
-
-
-//app.listen(3000, function () {
-//  console.log('Example app listening on port 3000!');
+});
 //});
-
-
 
 app.listen(process.env.PORT || 3000)

@@ -1,18 +1,22 @@
 <template>
   <div>
-  <div>
-    <button @click="getMysql">DB</button>
-    {{ message }}
-    <button @click="postMysql">post</button>
-    </div>
-    <div>
-       <gmap-autocomplete
+　  <div>
+    <label　id="search">
+       <gmap-autocomplete class="example"
          @place_changed="setPlace">
-       </gmap-autocomplete>
-       <button @click="addMarker">検索</button>
-       <button @click="post">周辺の駐車場を検索</button>
-       <button @click="getDriveplanToDestination">ルート表示</button>
-       <botton id="page6"><router-link to="/page6">インフォメーション</router-link></botton><!-- Page6画面へ -->
+        </gmap-autocomplete>
+       <button class="example2"
+       　@click="addMarker">検索</button>
+     </label>
+       <button class="example3"
+       @click="post">周辺の駐車場を検索</button>
+
+
+       <button class="example4"
+       @click="getDriveplanToDestination">ルート表示</button>
+       <ul>
+       <botton id="page6"><router-link to="/page6">フィードバック</router-link></botton><!-- Page6画面へ -->
+       </ul>
    </div>
     <gmap-map
       :center="center"
@@ -99,7 +103,7 @@ export default {
     },
 
     async postMysql() {
-      let response = await Methods.testPush(setlat, setlng)
+      let response = await Methods.testPush(setlat, setlng);
       console.log(setlat);
       var data = response.data;
       console.log(data);
@@ -184,9 +188,69 @@ h1, h2 {
   font-weight: normal;
   font-size: 48px;
 }
-#search {
-position: relative;
- top: 0;
- left: 0;
-  width: 500px;
+ul {
+/* 左下位置固定 */
+ position: fixed;
+ bottom: -10px;
+ right: 10px;
 }
+label {
+  width: 300px;
+  display: inline-block;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  background: #668ad8;/*ボタン色*/
+  color: #FFF;
+  border-bottom: solid 4px #627295;
+  border-radius: 3px;
+}
+label:active {
+  /*ボタンを押したとき*/
+  -webkit-transform: translateY(4px);
+  transform: translateY(4px);/*下に動く*/
+  border-bottom: none;/*線を消す*/
+}
+.example {
+    width: 240px;
+
+}
+.example2 {
+position: relative;
+display: inline-block;
+padding: 0.25em 0.5em;
+text-decoration: none;
+color: #FFF;
+background: #fd9535;/*背景色*/
+border-bottom: solid 2px #d27d00;/*少し濃い目の色に*/
+border-radius: 4px;/*角の丸み*/
+box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), 0 2px 2px rgba(0, 0, 0, 0.19);
+font-weight: bold;
+}
+.example3 {
+position: relative;
+ display: inline-block;
+ padding: 0.25em 0.5em;
+ text-decoration: none;
+ color: #FFF;
+ background: #03A9F4;/*色*/
+ border: solid 1px #0f9ada;/*線色*/
+ border-radius: 4px;
+ box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+ text-shadow: 0 1px 0 rgba(0,0,0,0.2);
+}
+.example4 {
+position: relative;
+ display: inline-block;
+ padding: 0.25em 0.5em;
+ text-decoration: none;
+ color: #FFF;
+ background: #03A9F4;/*色*/
+ border: solid 1px #0f9ada;/*線色*/
+ border-radius: 4px;
+ box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+ text-shadow: 0 1px 0 rgba(0,0,0,0.2);
+}
+#search {
+
+}
+</style>

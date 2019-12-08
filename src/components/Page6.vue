@@ -2,9 +2,8 @@
   <div class="page6">
 
 
-
     <ul>
-      <botton id="page6"><router-link to="/">戻る</router-link></botton><!-- Page6画面へ -->
+      <botton id="page6"><router-link to="/">戻る</router-link></botton><!-- Page1画面へ -->
     </ul>
     <button @click="fun">現在地を送信</button>
     <button @click="postMysql">選択した場所を送信</button>
@@ -69,10 +68,13 @@ export default {
     this.geolocate();
   },
   methods: {
+
 　place(event){
     if (event) {
+            var result1 = new Promise(function(resolve) {
             var lat = event.latLng.lat()
              var lng = event.latLng.lng()
+
              console.log(lat);
              console.log(lng);
              var marker2 = {
@@ -86,7 +88,10 @@ export default {
             select_lng = Number(lng);
       //    this.markers.push({ position: marker2 });
           this.places.push(this.currentPlace);
+          });
+          result1.then(function(response){
            console.log(this.markers)
+           });
 }
      },
     // receives a place object via the autocomplete component
@@ -94,7 +99,7 @@ export default {
       this.currentPlace = place;
     },
     async postMysql() {
-      let response = await Methods.testPush(select_lat, select_lng)
+      let response = await Methods.testPush(select_lat, select_lng);
       //console.log();
       var data = response.data;
       console.log(data);
@@ -192,5 +197,27 @@ export default {
 h1, h2 {
   font-weight: normal;
   font-size: 30px;
+}
+button {
+  height: 38px;
+  background-color: white;
+  color: blue;
+  border: solid 1px blue;
+  border-radius: 2px;
+  padding: 0 24px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: blue;
+    color: white;
+  }
+}
+ul {
+/* 左下位置固定 */
+ position: fixed;
+ bottom: 10px;
+ right: 10px;
+ font-size: 20px;
+
 }
 </style>
